@@ -59,18 +59,25 @@ public class SoapHepler {
       SOAPElement sEIDEl = bodyElement.addChildElement("SEID","simota");
       SOAPElement iMEIEl = bodyElement.addChildElement("IMEI","simota");
       SOAPElement appAIDEl = bodyElement.addChildElement("AppAID","simota");
-      seqNumEl.addTextNode(judgeNull(bodyJsonStr));
+      SOAPElement sessionId = bodyElement.addChildElement("SessionID","simota");
+//      SOAPElement resultCode = bodyElement.addChildElement("ResultCode","simota");
+      seqNumEl.addTextNode(judgeNull("20210623113223106039"));
       soapElement.addTextNode(judgeNull("TSM2106100000000000000000029501"));
-      sessionTypeEl.addTextNode(judgeNull(bodyJsonStr));
-      timeStampEl.addTextNode(judgeNull(bodyJsonStr));
-      commTypeEl.addTextNode(judgeNull(bodyJsonStr));
-      msisdnEl.addTextNode(judgeNull("15811317734"));
-      sEIDEl.addTextNode(judgeNull("041F1BDB04288001420405776993134708A3DC86D974C71D"));
-      iMEIEl.addTextNode(judgeNull(bodyJsonStr));
-      appAIDEl.addTextNode(judgeNull("D15600010100017100000004B0016001"));
+      sessionTypeEl.addTextNode(judgeNull("10"));
+      timeStampEl.addTextNode(judgeNull("20210623113223"));
+      commTypeEl.addTextNode(judgeNull("1"));
+      msisdnEl.addTextNode(judgeNull("13522165497"));
+      sEIDEl.addTextNode(judgeNull("21000009103151913488"));
+      iMEIEl.addTextNode(judgeNull("5e7da3230cf51975"));
+      appAIDEl.addTextNode(judgeNull("D15600010180000000000004B0015200"));
+      sessionId.addTextNode(judgeNull("20210623113223094032"));
+//      resultCode.addTextNode(judgeNull("0000"));
       message.saveChanges();
       System.out.println("输出报文，如下：");
       message.writeTo(System.out);
+
+      //<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><simota:PreOperationsReq xmlns:simota="http://www.chinamobile.com"><simota:SeqNum>20210713012531166153</simota:SeqNum><simota:SessionID>20210713012531153107</simota:SessionID><simota:SessionType>10</simota:SessionType><simota:TimeStamp>20210713012531</simota:TimeStamp><simota:Msisdn>13522165497</simota:Msisdn><simota:SEID>21000009103151913488</simota:SEID><simota:IMEI>cbd83f91d9cc2690</simota:IMEI><simota:AppAID>D15600010180000000000004B0015200</simota:AppAID></simota:PreOperationsReq></soap:Body></soap:Envelope>
+      //{"appAid":"D15600010180000000000004B0015200","commType":"1","imei":"5e7da3230cf51975","msisdn":"13476230893","seid":"20000002103003177181","seqNum":"20210623113223106039","sessionID":"20210623113223094032","sessionType":"2","timeStamp":"20210623113223"}
       //发送信息
        //发送信息
       SOAPMessage call = connection.call(message, addressUrl);
