@@ -1,5 +1,7 @@
 package com.cas.util;
 
+import com.cas.controller.ClientController;
+
 import javax.xml.soap.*;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -22,10 +24,9 @@ public class SoapHepler {
   }
   /**
   * 添加所需信息
-  * @param bodyJsonStr 请求体json
   * @return
   */
-  public String sendSoapXml(String bodyJsonStr) {
+  public String sendSoapXml(ClientController.ResultDTO resultDTO) {
     String XSI_I = "http://www.chinamobile.com";
     try {
       //实例化一个soap连接对象工厂
@@ -49,29 +50,27 @@ public class SoapHepler {
       SOAPBody body = envelope.getBody();
       body.setPrefix("soap");
 
-      SOAPBodyElement bodyElement = body.addBodyElement(envelope.createName("PreOperationsReq", "simota", XSI_I));
+      SOAPBodyElement bodyElement = body.addBodyElement(envelope.createName("OperationResultNotify", "simota", XSI_I));
       SOAPElement seqNumEl = bodyElement.addChildElement("SeqNum","simota");
       SOAPElement soapElement = bodyElement.addChildElement("SessionID","simota");
       SOAPElement sessionTypeEl = bodyElement.addChildElement("SessionType","simota");
       SOAPElement timeStampEl = bodyElement.addChildElement("TimeStamp","simota");
-      SOAPElement commTypeEl = bodyElement.addChildElement("CommType","simota");
       SOAPElement msisdnEl = bodyElement.addChildElement("Msisdn","simota");
       SOAPElement sEIDEl = bodyElement.addChildElement("SEID","simota");
-      SOAPElement iMEIEl = bodyElement.addChildElement("IMEI","simota");
+//      SOAPElement iMEIEl = bodyElement.addChildElement("IMEI","simota");
       SOAPElement appAIDEl = bodyElement.addChildElement("AppAID","simota");
       SOAPElement sessionId = bodyElement.addChildElement("SessionID","simota");
-//      SOAPElement resultCode = bodyElement.addChildElement("ResultCode","simota");
+      SOAPElement resultCode = bodyElement.addChildElement("ResultCode","simota");
       seqNumEl.addTextNode(judgeNull("20210623113223106039"));
       soapElement.addTextNode(judgeNull("TSM2106100000000000000000029501"));
-      sessionTypeEl.addTextNode(judgeNull("10"));
+      sessionTypeEl.addTextNode(judgeNull(resultDTO.getSessionType()));
       timeStampEl.addTextNode(judgeNull("20210623113223"));
-      commTypeEl.addTextNode(judgeNull("1"));
-      msisdnEl.addTextNode(judgeNull("13522165497"));
-      sEIDEl.addTextNode(judgeNull("21000009103151913488"));
-      iMEIEl.addTextNode(judgeNull("5e7da3230cf51975"));
+      msisdnEl.addTextNode(judgeNull(resultDTO.getMobile()));
+      sEIDEl.addTextNode(judgeNull(resultDTO.getSeid()));
+//      iMEIEl.addTextNode(judgeNull("5e7da3230cf51975"));
       appAIDEl.addTextNode(judgeNull("D15600010180000000000004B0015200"));
       sessionId.addTextNode(judgeNull("20210623113223094032"));
-//      resultCode.addTextNode(judgeNull("0000"));
+      resultCode.addTextNode(judgeNull(resultDTO.getResultCode()));
       message.saveChanges();
       System.out.println("输出报文，如下：");
       message.writeTo(System.out);

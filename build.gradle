@@ -26,6 +26,9 @@ dependencies {
     implementation 'org.jdom:com.springsource.org.jdom:2.0.1'
 //    implementation 'org.apache.cxf:cxf-spring-boot-starter-jaxws:3.1.11'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // swagger
+    implementation 'io.springfox:springfox-swagger2:2.7.0'
+    implementation 'io.springfox:springfox-swagger-ui:2.7.0'
 
 }
 
